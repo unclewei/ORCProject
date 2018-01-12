@@ -17,6 +17,12 @@ android {
         }
     }
 }
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        jcenter()
+    }
+}
 configurations.all {
 
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -35,7 +41,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
+    compile 'com.github.nanchen2251:CompressHelper:1.0.5'
     compile 'com.rmtheis:tess-two:6.0.0'
     compile 'com.lzy.widget:imagepicker:0.6.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'

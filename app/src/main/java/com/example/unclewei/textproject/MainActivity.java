@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +18,9 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.view.CropImageView;
+import com.nanchen.compresshelper.CompressHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,27 +58,26 @@ public class MainActivity extends AppCompatActivity {
 
         final TessBaseAPI baseApi = new TessBaseAPI();
         //初始化OCR的训练数据路径与语言
-        baseApi.init(TESSBASE_PATH, DEFAULT_LANGUAGE);
-        baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "X0123456789"); // 识别白名单
-        baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "!@#$%^&*()_+=-[]}{;:'\"\\|~`,./<>?"); // 识别黑名单
+        baseApi.init(TESSBASE_PATH, CHINESE_LANGUAGE);
+//        baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "X0123456789"); // 识别白名单
+//        baseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "ABCDEFGHIJKLMNOPQRXTUVWabcdefghijklmnopqrxtuvwxyzYZ!@#$%^&*()_+=-[]}{;:'\"\\|~`,./<>?"); // 识别黑名单
         baseApi.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);//设置识别模式
         //设置识别模式
         baseApi.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
 
         //设置要识别的图片
         baseApi.setImage(bmp);
-        final CustomDialog customDialog = new CustomDialog(this,"loading");
+        final CustomDialog customDialog = new CustomDialog(this, "loading");
         customDialog.show();
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-               final String text = baseApi.getUTF8Text();
+                final String text = baseApi.getUTF8Text();
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        simplechinese.setImageBitmap(bmp);
                         simplechinesetext.setText(text);
                         baseApi.clear();
                         baseApi.end();
@@ -100,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ImageGridActivity.class);
         startActivityForResult(intent, 100);
     }
+
     /**
      * 初始化ImagePicker
      */
@@ -123,8 +127,20 @@ public class MainActivity extends AppCompatActivity {
             if (data != null && requestCode == 100) {
                 List<ImageItem> imageItemList = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (imageItemList != null) {
-                     path = imageItemList.get(0).path;
-                    Glide.with(MainActivity.this).load("file://" + path).into(simplechinese);
+                    path = imageItemList.get(0).path;
+                    File oldfile = new File(path);
+                    File newFile = new CompressHelper.Builder(this)
+                            .setMaxWidth(720)  // 默认最大宽度为720
+                            .setMaxHeight(960) // 默认最大高度为960
+                            .setQuality(100)    // 默认压缩质量为80
+                            .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
+                            .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                            .build()
+                            .compressToFile(oldfile);
+                    path = newFile.getAbsolutePath();
+                    Log.e("William:path :", path);
+                    Glide.with(MainActivity.this).load(path).into(simplechinese);
                 }
             }
         }
