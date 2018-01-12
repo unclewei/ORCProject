@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmojiconStyle">
+        <attr name="emojiconGridViewStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="WheelView">
+        <attr name="textSize" format="dimension" />
+        <attr name="centerTextColor" format="color" />
+        <attr name="outerTextColor" format="color" />
+        <attr name="dividerColor" format="color" />
+        <attr name="dividerPadding" format="dimension" />
+        <attr name="scaleX" format="float" />
+        <attr name="isDividerWrapContent" format="boolean" />
+        <attr name="visibleCount" format="integer" />
+        <attr name="lineSpacingMultiplier" format="float" />
+        <attr name="isLoop" format="boolean" />
+        <attr name="defaultPosition" format="integer" />
+    </declare-styleable>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorAccent">#FF303570</item>
+    </style>
+
+    <!-- 标题模板自定义属性 -->
+    <declare-styleable name="TemplateTitle">
+        <!-- 标题文案 -->
+        <attr name="titleText" format="string" />
+        <!-- 是否有back按钮 -->
+        <attr name="canBack" format="boolean" />
+        <!-- back按钮文案 -->
+        <attr name="backText" format="string" />
+        <!-- 右侧更多功能按钮图片 -->
+        <attr name="moreImg" format="reference" />
+        <!-- 右侧更多功能按钮图片2 -->
+        <attr name="moreImgRight" format="reference" />
+        <!-- 右侧更多功能按钮文字 -->
+        <attr name="moreText" format="string" />
+        <!--控件背景颜色-->
+        <attr name="titleColor" format="color" />
+        <!--更多功能文字颜色-->
+        <attr name="moreTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="BubbleImageView">
+        <attr name="arrowWidth" format="dimension" />
+        <attr name="angle" format="dimension" />
+        <attr name="arrowHeight" format="dimension" />
+        <attr name="arrowPosition" format="dimension" />
+        <attr name="bubbleColor" format="color" />
+        <attr name="arrowCenter" format="boolean" />
+        <attr name="arrowLocation" format="enum">
+            <enum name="left" value="0x00" />
+            <enum name="right" value="0x01" />
+            <enum name="top" value="0x02" />
+            <enum name="bottom" value="0x03" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ShaderImageView">
+        <attr name="square" format="boolean" />
+        <attr name="borderColor" format="color" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="borderAlpha" format="float" />
+        <attr name="triangleHeightPx" format="dimension" />
+        <attr name="location" format="enum">
+            <enum name="left" value="0x00" />
+            <enum name="right" value="0x01" />
+            <enum name="top" value="0x02" />
+            <enum name="bottom" value="0x03" />
+        </attr>
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
+    <attr name="indexBarTextSize" format="dimension" />
+
+
+    <declare-styleable name="IndexBar">
+        <attr name="indexBarTextSize" />
+        <attr name="indexBarPressBackground" format="color" />
+    </declare-styleable>
+
+</resources>
